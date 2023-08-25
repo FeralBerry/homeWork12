@@ -8,34 +8,49 @@ import java.util.Arrays;
 public class Book {
     private final String bookName;
     private final int year;
+    private final int authorId;
 
     public Book(String bookName, int authorId, int year) {
+        // Имя книги задаваемое пользователем
         this.bookName = bookName;
+        // Год книги задаваемый пользователем
         this.year = year;
+        // id автора книги из списка авторов в файле
+        this.authorId = authorId;
+        getBookAuthor();
+    }
+    // метод получения Автора книги по id c сохраниением ФИО автора в поле внутреннего класса Author
+    private void getBookAuthor(){
+        // Объект для считывания файла
         BufferedReader br = null;
+        // Объявление разделителя
         String delimiter = " \\| ";
-        String bookAuthor = null;
+        String bookAuthor;
+        // Проверка существование файла для считывания
         try {
+            // Считывания файла
             File file = new File("authors.txt");
+            // проверка на существование файла и создание, нового если его нет
             if (file.exists()) {
                 file.createNewFile();
             }
             String line;
             String[] array = new String[0];
+            // запись всех данных из файла в переменную
             br = new BufferedReader(new FileReader("authors.txt"));
+            // построчный обход данных из файла и запись в массив строк
             while ((line = br.readLine()) != null) {
                 array = append(array, line);
             }
             String[] arr;
-            bookAuthor = "";
-            for (int i = 0; i < array.length; i++) {
-                if (i + 1 == authorId) {
-                    bookAuthor = array[i];
-                    arr = bookAuthor.split(delimiter);
-                    bookAuthor = arr[1];
-                }
-            }
-
+            // получение нужной строки с автором
+            bookAuthor = array[this.authorId - 1];
+            // разделение строки по делиметру и сохранение в массив строк
+            arr = bookAuthor.split(delimiter);
+            // получение только строки с ФИО автора
+            bookAuthor = arr[1];
+            // сохранение ФИО Автора в поле name внутреннего класса Author
+            Author.name = bookAuthor;
         } catch (IOException e) {
             //Вывод ошибки исключения
             System.out.println("Error: " + e);
@@ -47,10 +62,9 @@ public class Book {
                 System.out.println("Error: " + e);
             }
         }
-        Author.name = bookAuthor;
     }
     public void recordNewBook() {
-        //Объект для считывания файла
+        // Объект для считывания файла
         BufferedReader br = null;
         String delimiter = " | ";
         try {
