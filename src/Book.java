@@ -6,13 +6,48 @@ import java.io.FileReader;
 import java.util.Arrays;
 
 public class Book {
-    String bookName;
-    int id;
-    int year;
-    public Book(String bookName, int id, int year) {
+    private final String bookName;
+    private final int year;
+
+    public Book(String bookName, int authorId, int year) {
         this.bookName = bookName;
-        this.id = id;
         this.year = year;
+        BufferedReader br = null;
+        String delimiter = " \\| ";
+        String bookAuthor = null;
+        try {
+            File file = new File("authors.txt");
+            if (file.exists()) {
+                file.createNewFile();
+            }
+            String line;
+            String[] array = new String[0];
+            br = new BufferedReader(new FileReader("authors.txt"));
+            while ((line = br.readLine()) != null) {
+                array = append(array, line);
+            }
+            String[] arr;
+            bookAuthor = "";
+            for (int i = 0; i < array.length; i++) {
+                if (i + 1 == authorId) {
+                    bookAuthor = array[i];
+                    arr = bookAuthor.split(delimiter);
+                    bookAuthor = arr[1];
+                }
+            }
+
+        } catch (IOException e) {
+            //Вывод ошибки исключения
+            System.out.println("Error: " + e);
+        } finally {
+            try {
+                assert br != null;
+                br.close();
+            } catch (IOException e) {
+                System.out.println("Error: " + e);
+            }
+        }
+        Author.name = bookAuthor;
     }
     public void recordNewBook() {
         //Объект для считывания файла
@@ -33,17 +68,8 @@ public class Book {
             for (String s : array) {
                 books.println(s);
             }
-            String[] authors = Author.getAuthors();
-            String[] arr;
-            String bookAuthor = "";
-            for (int i = 0; i < authors.length; i++){
-                if(i + 1 == this.id){
-                    bookAuthor = authors[i];
-                    arr = bookAuthor.split(" \\| ");
-                    bookAuthor = arr[1];
-                }
-            }
-            books.println(this.bookName + delimiter + bookAuthor + delimiter + this.year);
+
+            books.println(this.bookName + delimiter + Author.name + delimiter + this.year);
             books.close();
         } catch (IOException e){
             //Вывод ошибки исключения
@@ -75,5 +101,7 @@ public class Book {
         array[arr.length] = element;
         return array;
     }
-
+    static class Author{
+        public static String name;
+    }
 }

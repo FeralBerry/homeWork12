@@ -6,9 +6,9 @@ import java.io.FileReader;
 import java.util.Arrays;
 
 public class Author {
-    String surname;
-    String name;
-    String patronymic;
+    private final String surname;
+    private final String name;
+    private final String patronymic;
     public Author(String surname, String name, String patronymic) {
         this.surname = surname;
         this.name = name;
