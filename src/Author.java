@@ -6,7 +6,15 @@ import java.io.FileReader;
 import java.util.Arrays;
 
 public class Author {
-    public static void recordNewAuthor(String surname, String name, String patronymic) {
+    String surname;
+    String name;
+    String patronymic;
+    public Author(String surname, String name, String patronymic) {
+        this.surname = surname;
+        this.name = name;
+        this.patronymic = patronymic;
+    }
+    public void recordNewAuthor() {
         //Объект для считывания файла
         BufferedReader br = null;
         String delimiter = " ";
@@ -25,10 +33,10 @@ public class Author {
             int id = 0;
             for (String s : array) {
                 id++;
-                lib.println("id " + id + " | " + s);
+                lib.println(s);
             }
             id++;
-            lib.println("id "+ id +" | " + surname + delimiter + name + delimiter + patronymic);
+            lib.println("id "+ id +" | " + this.surname + delimiter + this.name + delimiter + this.patronymic);
             lib.close();
         } catch (IOException e){
             //Вывод ошибки исключения

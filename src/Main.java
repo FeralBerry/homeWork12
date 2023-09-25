@@ -38,7 +38,8 @@ public class Main {
                 String name = sc.next();
                 System.out.print("\nВведите Отчество автора: ");
                 String patronymic = sc.next();
-                Author.recordNewAuthor(surname,name,patronymic);
+                Author author = new Author(surname,name,patronymic);
+                author.recordNewAuthor();
             } else if(exit.equalsIgnoreCase("2")){
                 for (String author : authors) {
                     System.out.println(author);
@@ -65,7 +66,8 @@ public class Main {
                 } catch (NumberFormatException ex) {
                     System.out.println("Год должен быть цифрой!");
                 }
-                Book.recordNewBook(bookName, id, year);
+                Book book = new Book(bookName, id, year);
+                book.recordNewBook();
             } else if(exit.equalsIgnoreCase("4")){
                 String[] books = Book.getBooks();
                 for (String book : books) {

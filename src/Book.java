@@ -6,7 +6,15 @@ import java.io.FileReader;
 import java.util.Arrays;
 
 public class Book {
-    public static void recordNewBook(String bookName,int id,int year) {
+    String bookName;
+    int id;
+    int year;
+    public Book(String bookName, int id, int year) {
+        this.bookName = bookName;
+        this.id = id;
+        this.year = year;
+    }
+    public void recordNewBook() {
         //Объект для считывания файла
         BufferedReader br = null;
         String delimiter = " | ";
@@ -29,13 +37,13 @@ public class Book {
             String[] arr;
             String bookAuthor = "";
             for (int i = 0; i < authors.length; i++){
-                if(i + 1 == id){
+                if(i + 1 == this.id){
                     bookAuthor = authors[i];
-                    arr = bookAuthor.split("\\|");
+                    arr = bookAuthor.split(" \\| ");
                     bookAuthor = arr[1];
                 }
             }
-            books.println(bookName + delimiter + bookAuthor + delimiter + year);
+            books.println(this.bookName + delimiter + bookAuthor + delimiter + this.year);
             books.close();
         } catch (IOException e){
             //Вывод ошибки исключения
